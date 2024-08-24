@@ -1,0 +1,132 @@
+{
+  "providers": [
+    {
+      "type": "reference",
+      "id": "minecraft:include/space"
+    },
+    {
+      "type": "reference",
+      "id": "minecraft:include/default"
+    },
+    {
+      "type": "reference",
+      "id": "minecraft:include/unifont"
+    },
+    {
+      "type": "bitmap",
+      "file": "symbols_n_stuff:font/keybinds.png",
+      "ascent": 9,
+      "height": 11,
+      "chars": [
+        "\uE000\uE001\uE002\uE003\uE004\uE005\uE006\uE007\uE020\uE027",
+        "\uE02C\uE02D\uE02E\uE02F\uE030\uE031\uE032\uE033\uE034\uE035",
+        "\uE036\uE037\uE038\uE039\uE03B\uE03D\uE041\uE042\uE043\uE044",
+        "\uE045\uE046\uE047\uE048\uE049\uE04A\uE04B\uE04C\uE04D\uE04E",
+        "\uE04F\uE050\uE051\uE052\uE053\uE054\uE055\uE056\uE057\uE058",
+        "\uE059\uE05A\uE05B\uE05C\uE05D\uE060\uE106\uE107\uE108\uE109"
+      ]
+    },
+    {
+      "type": "bitmap",
+      "file": "symbols_n_stuff:font/large_keybinds.png",
+      "ascent": 9,
+      "height": 11,
+      "chars": [
+        "\uE154\uE155\uE156\uE102\uE101",
+        "\uE158\uE159\uE15A\uE902\uE10C",
+        "\uE10D\uE10A\uE10B\uE140\uE141",
+        "\uE142\uE143\uE144\uE145\uE146",
+        "\uE147\uE148\uE149\uE14A\uE14B",
+        "\uE14C\uE14D\uE14E\uE14F\uE150"
+      ]
+    },
+    {
+      "type": "bitmap",
+      "file": "symbols_n_stuff:font/function_keys.png",
+      "ascent": 9,
+      "height": 11,
+      "chars": [
+        "\uE122\uE123\uE124\uE125\uE126",
+        "\uE127\uE128\uE129\uE12A\uE12B",
+        "\uE12C\uE12D\uE12E\uE12F\uE130",
+        "\uE131\uE132\uE133\uE134\uE135",
+        "\uE136\uE137\uE138\uE139\uE13A"
+      ]
+    },
+    {
+      "type": "bitmap",
+      "file": "symbols_n_stuff:font/symbols.png",
+      "ascent": 8,
+      "height": 11,
+      "chars": [
+        "\uE901\uE903\uE904\uE905\uE906\uE907\uE908\uE909\uE90A\uE90B",
+        "\uE90C\uE90D\uE90E\uE90F\uE910\uE911\uE912\uE913\uE914\uE915",
+        "\uE916\uE917\uE918\uE919\uE91A\uE83D\uE83E\uE83F\uE840\uE841"
+      ]
+    },
+    {
+      "type": "bitmap",
+      "file": "symbols_n_stuff:font/sockets.png",
+      "ascent": 8,
+      "height": 11,
+      "chars": [
+        "\uEB00\uEB01\uEB02\uEB03\uEB04\uEB05\uEB06\uEB07\uEB08\uEB09",
+        "\uEB0A\uEB0B\uEB0C\uEB0D\uEB0E\uEB0F\uEB10\uEB11\uEB12\uEB13",
+        "\uEB14\uEB15\uEB16\uEB17\uEB18\uEB19\uEB1A\uEB1B\uEB1C\uEB1D",
+        "\uEB1E\uEB1F\uEB20\uEB21\uEB22\uEB23\uEB24\uEB25\uEB26\uEB27",
+        "\uEB28\uEB29\uEB2A\uEB2B\uEB2C\uEB2D\uEB2E\uEB2F\uEB30\uEB31",
+        "\uEB50\uEB51\uEB52\uEB53\uEB54\uEB55\uEB56\uEB57\uEB58\uEB59",
+        "\uEB5A\uEB5B\uEB5C\uEB5D\uEB5E\uEB5F\uEB60\uEB61\uEB62\uE80F",
+        "\uEB90\uEB91\uEB92\uEB93\uEB94\uE810\uE811\uE812\uE813\uE814",
+        "\uEBB0\uEBB1\uEBB2\uEBB3\uEBB4\uEBB5\uEBB6\uEBB7\uEBB8\uE816"
+      ]
+    },
+    {
+      "type": "bitmap",
+      "file": "symbols_n_stuff:font/sockets_2.png",
+      "ascent": 8,
+      "height": 11,
+      "chars": [
+        "\uEBD0\uEBD1\uEBD2\uEBD3\uEBD4\uEBD5\uEBD6\uEBD7\uEBD8\uEBD9",
+        "\uEBDA\uEBDB\uEBDC\uEBDD\uEBDE\uEBDF\uEBE0\uE818\uE819\uE81A",
+        "\uEBF0\uEBF1\uEBF2\uEBF3\uEBF4\uEBF5\uEBF6\uEBF7\uEBF8\uEBF9",
+        "\uEBFA\uEBFB\uEBFC\uEBFD\uEBFE\uEBFF\uEC00\uEC01\uEC02\uEC03",
+        "\uEC04\uEC05\uEC06\uEC07\uEC08\uEC09\uEC0A\uEC0B\uEC0C\uEC0D",
+        "\uEC0E\uEC0F\uEC10\uEC11\uEC12\uEC13\uEC14\uEC15\uEC16\uEC17",
+        "\uEC18\uEC19\uEC1A\uEC1B\uEC1C\uEC1D\uEC1E\uE83A\uE83B\uE83C",
+        "\uEC40\uEC41\uEC42\uEC43\uEC44\uEC45\uEC46\uEC47\uE822\uE823",
+        "\uEC50\uEC51\uEC52\uEC53\uEC54\uEC55\uEC56\uEC57\uEC58\uEC59",
+        "\uEC5A\uEC5B\uEC5C\uEC5D\uEC5E\uEC5F\uEC60\uE829\uE82A\uE82B",
+        "\uEC80\uEC81\uEC82\uEC83\uEC84\uEC85\uE834\uE835\uE836\uE837",
+        "\uEC90\uEC91\uEC92\uEC93\uEC94\uEC95\uEC96\uEC97\uEC98\uEC99",
+        "\uEC9A\uEC9B\uEC9C\uEC9D\uEC9E\uEC9F\uECA0\uECA1\uE832\uE833"
+      ]
+    },
+    {
+      "type": "bitmap",
+      "file": "symbols_n_stuff:font/animated_sockets.png",
+      "ascent": 8,
+      "height": 11,
+      "chars": [
+        "\uEA00\uEA01\uEA02\uEA03\uEA04\uEA05\uEA06\uEA07",
+        "\uEA08\uEA09\uEA0A\uEA0B\uEA0C\uEA0D\uEA0E\uEA0F"
+      ]
+    },
+    {
+      "type": "bitmap",
+      "file": "symbols_n_stuff:font/emi_loot.png",
+      "ascent": 9,
+      "height": 10,
+      "chars": [
+        "\uE700\uE701\uE702\uE703\uE704\uE705\uE706\uE707\uE708\uE709",
+        "\uE70A\uE70B\uE70C\uE70D\uE70E\uE70F\uE710\uE711\uE712\uE713",
+        "\uE714\uE715\uE716\uE717\uE718\uE719\uE722\uE723\uE724\uE725",
+        "\uE726\uE727\uE728\uE729\uE72A\uE72B\uE72C\uE72D\uE72E\uE72F",
+        "\uE730\uE731\uE732\uE733\uE734\uE735\uE736\uE737\uE842\uE843",
+        "\uE73E\uE73F\uE740\uE741\uE742\uE74D\uE74E\uE74F\uE750\uE751",
+        "\uE75C\uE75D\uE75E\uE75F\uE760\uE76B\uE76C\uE76D\uE76E\uE76F",
+        "\uE77C\uE77D\uE77E\uE77F\uE780\uE781\uE782\uE796\uE844\uE845"
+      ]
+    }
+  ]
+}

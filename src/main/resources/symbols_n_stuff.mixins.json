@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "me.fzzyhmstrs.symbols_n_stuff.mixins",
+  "compatibilityLevel": "JAVA_16",
+  "mixins": [
+  ],
+  "client": [
+    "accessor.KeyBindingAccessor"
+  ],
+  "server": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
