@@ -3,6 +3,7 @@
   "package": "me.fzzyhmstrs.symbols_n_stuff.mixins",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
+    "TextCodecsMixin"
   ],
   "client": [
     "accessor.KeyBindingAccessor"

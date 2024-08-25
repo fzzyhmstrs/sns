@@ -34,9 +34,9 @@ class SymbolTextContent private constructor(internal val ids: List<String>): Tex
             })
         }
 
-    /*override fun getType(): TextContent.Type<*> {
+    override fun getType(): TextContent.Type<*> {
         return TYPE
-    }*/
+    }
 
     override fun <T : Any?> visit(visitor: StringVisitable.Visitor<T>): Optional<T> {
         return visitor.accept(str)
@@ -89,12 +89,12 @@ class SymbolTextContent private constructor(internal val ids: List<String>): Tex
         private val FONT_ID: Identifier = Identifier.of("symbols_n_stuff", "symbols")!!
         private val STYLE: Style = Style.EMPTY.withFont(FONT_ID)
 
-        /*private val CODEC = RecordCodecBuilder.mapCodec { instance: RecordCodecBuilder.Instance<SymbolTextContent> ->
+        private val CODEC = RecordCodecBuilder.mapCodec { instance: RecordCodecBuilder.Instance<SymbolTextContent> ->
             instance.group(
                 Codec.STRING.listOf().fieldOf("ids").forGetter { s -> s.ids }
             ).apply(instance) { id -> SymbolTextContent(id) }
         }
 
-        val TYPE = TextContent.Type(CODEC, "symbol")*/
+        val TYPE = TextContent.Type(CODEC, "symbol")
     }
 }
