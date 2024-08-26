@@ -115,7 +115,7 @@
     {
       "type": "bitmap",
       "file": "symbols_n_stuff:font/emi_loot.png",
-      "ascent": 9,
+      "ascent": 8,
       "height": 10,
       "chars": [
         "\uE700\uE701\uE702\uE703\uE704\uE705\uE706\uE707\uE708\uE709",
