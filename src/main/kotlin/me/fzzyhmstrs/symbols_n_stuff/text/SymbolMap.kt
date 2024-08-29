@@ -10,8 +10,10 @@
 
 package me.fzzyhmstrs.symbols_n_stuff.text
 
+import com.mojang.datafixers.util.Either
 import com.mojang.serialization.Codec
 import com.mojang.serialization.DataResult
+import com.mojang.serialization.codecs.EitherCodec
 import net.minecraft.item.ItemStack
 import net.minecraft.registry.Registries
 import net.minecraft.text.MutableText
@@ -19,6 +21,7 @@ import net.minecraft.text.Text
 import net.minecraft.text.TextCodecs
 import net.minecraft.util.StringIdentifiable
 import java.util.*
+import java.util.function.Function
 
 enum class SymbolMap(private val id: String, private val chr: List<String>, private val isSocket: Boolean = true): StringIdentifiable {
 
@@ -411,10 +414,13 @@ enum class SymbolMap(private val id: String, private val chr: List<String>, priv
 
         val CODEC: Codec<SymbolMap> = StringIdentifiable.createCodec { SymbolMap.entries.toTypedArray() }
 
-        val SYMBOL_CODEC: Codec<Text> = Codec.withAlternative(SymbolMap.CODEC.flatComapMap(
+        val SYMBOL_CODEC: Codec<Text> = EitherCodec(SymbolMap.CODEC.flatComapMap(
             { s -> SymbolTextContent.of(s.id()) },
             { t -> try { DataResult.success(SymbolMap.getEnum((t.content as SymbolTextContent).ids[0])) ?: throw IllegalStateException("failed to resolve symbol") } catch (e: Throwable) { DataResult.error { "Invalid text content" } }  }
         ),
-            TextCodecs.CODEC)
+            TextCodecs.CODEC).xmap(
+                { e -> e.map(Function.identity(), Function.identity()) },
+                { t -> if (t is MutableText) Either.left(t) else Either.right(t) }
+            )
     }
 }
