@@ -26,7 +26,7 @@ import java.util.function.Function
 enum class SymbolMap(private val id: String, private val chr: List<String>, private val isSocket: Boolean = true): StringIdentifiable {
 
     //general reserved \uE800, and \uE801 to \uE8FF
-    //Currently in use \uE801-23 to \uE829-45
+    //Currently in use \uE801-23 to \uE829-46
 
     //Emi Loot: \uE700 to \uE7FF
 
