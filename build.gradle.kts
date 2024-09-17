@@ -1,3 +1,9 @@
+import org.jetbrains.kotlin.cli.common.toBooleanLenient
+import java.net.URI
+import com.matthewprenger.cursegradle.CurseArtifact
+import com.matthewprenger.cursegradle.CurseProject
+import com.matthewprenger.cursegradle.CurseRelation
+import com.matthewprenger.cursegradle.Options
 
 /*
 * Copyright (c) 2024 Fzzyhmstrs
@@ -10,10 +16,11 @@
 * */
 
 plugins {
-    id("fabric-loom")
+    id("dev.architectury.loom")
     val kotlinVersion: String by System.getProperties()
     kotlin("jvm").version(kotlinVersion)
     id("com.modrinth.minotaur") version "2.+"
+    id("com.matthewprenger.cursegradle") version "1.4.0"
 }
 base {
     val archivesBaseName: String by project
@@ -27,30 +34,7 @@ group = mavenGroup
 println("## Changelog for ${base.archivesName.get()} $modVersion \n\n" + log.readText())
 println(base.archivesName.get().replace('_','-'))
 repositories {
-    /*maven {
-        name = "TerraformersMC"
-        url = uri("https://maven.terraformersmc.com/")
-    }*/
-    /*maven {
-        name = "REI"
-        url = uri("https://maven.shedaniel.me")
-    }*/
-    /*maven {
-        name = "Progwml6 maven"
-        url = uri("https://dvs1.progwml6.com/files/maven/")
-    }*/
-    /*maven {
-        name = "Ladysnake Libs"
-        url = uri("https://maven.ladysnake.org/releases")
-        content {
-            includeGroup("io.github.ladysnake")
-            includeGroupByRegex("io\\.github\\.onyxstudios.*")
-        }
-    }*/
-    /*maven {
-        name = "Patchouli Lib"
-        url = uri("https://maven.blamejared.com")
-    }*/
+
     maven {
         name = "Modrinth"
         url = uri("https://api.modrinth.com/maven")
@@ -58,63 +42,28 @@ repositories {
             includeGroup("maven.modrinth")
         }
     }
-    /*maven {
-        name = "Jitpack"
-        url = uri("https://jitpack.io")
-    }*/
-    /*flatDir {
-        dirs("E:\\Documents\\Mod Libraries\\ac\\build\\libs")
-    }*/
-    /*flatDir {
-        dirs("E:\\Documents\\Mod Libraries\\fc\\build\\libs")
-    }*/
-    /*flatDir {
-        dirs("E:\\Documents\\Mod Libraries\\gc\\build\\libs")
-    }*/
-    /*flatDir {
-        dirs("E:\\Documents\\Mod Development\\ai\\build\\libs")
-    }*/
-    /*flatDir {
-        dirs("E:\\Documents\\Mod Libraries\\fzzy_config\\build\\libs")
-    }*/
+    maven {
+        url = URI("https://maven.neoforged.net/releases")
+    }
+    maven {
+        url = URI("https://thedarkcolour.github.io/KotlinForForge/")
+    }
     mavenCentral()
 }
 dependencies {
     val minecraftVersion: String by project
     minecraft("com.mojang:minecraft:$minecraftVersion")
     val yarnMappings: String by project
-    mappings("net.fabricmc:yarn:$yarnMappings:v2")
+    val yarnMappingsPatchVersion: String by project
+    mappings( loom.layered {
+        mappings("net.fabricmc:yarn:$yarnMappings:v2")
+        mappings("dev.architectury:yarn-mappings-patch-neoforge:$yarnMappingsPatchVersion")
+    })
     val loaderVersion: String by project
-    modImplementation("net.fabricmc:fabric-loader:$loaderVersion")
-    val fabricVersion: String by project
-    modImplementation("net.fabricmc.fabric-api:fabric-api:$fabricVersion")
-    val fabricKotlinVersion: String by project
-    modImplementation("net.fabricmc:fabric-language-kotlin:$fabricKotlinVersion")
+    neoForge("net.neoforged:neoforge:$loaderVersion")
 
-    /*val fzzyConfigVersion: String by project
-    modImplementation(":fzzy_config-$fzzyConfigVersion") {
-        exclude("net.fabricmc.fabric-api")
-    }*/
-
-    /*val acVersion: String by project
-    modImplementation(":amethyst_core-$acVersion") {
-        exclude("net.fabricmc.fabric-api")
-    }*/
-
-    /*val fcVersion: String by project
-    modImplementation(":fzzy_core-$fcVersion") {
-        exclude("net.fabricmc.fabric-api")
-    }*/
-
-    /*val gcVersion: String by project
-    modImplementation(":gear_core-$gcVersion") {
-        exclude("net.fabricmc.fabric-api")
-    }*/
-
-    /*val aiVersion: String by project
-    modImplementation(":amethyst_imbuement-$aiVersion") {
-        exclude("net.fabricmc.fabric-api")
-    }*/
+    val kotlinForForgeVersion: String by project
+    modImplementation("thedarkcolour:kotlinforforge-neoforge:$kotlinForForgeVersion")
 
 }
 
@@ -145,15 +94,9 @@ tasks {
         val loaderVersion: String by project
         val fabricKotlinVersion: String by project
         inputs.property("version", project.version)
-        inputs.property("id", base.archivesName.get())
-        inputs.property("loaderVersion", loaderVersion)
-        inputs.property("fabricKotlinVersion", fabricKotlinVersion)
-        filesMatching("fabric.mod.json") {
+        filesMatching("META-INF/neoforge.mods.toml") {
             expand(mutableMapOf(
-                "version" to project.version,
-                "id" to base.archivesName.get(),
-                "loaderVersion" to loaderVersion,
-                "fabricKotlinVersion" to fabricKotlinVersion)
+                "version" to project.version)
             )
         }
     }
@@ -166,27 +109,63 @@ tasks {
 }
 
 modrinth {
+    val uploadDebugMode: String by project
+    val releaseType: String by project
     val modrinthSlugName: String by project
     val mcVersions: String by project
     token.set(System.getenv("MODRINTH_TOKEN"))
     projectId.set(modrinthSlugName)
     versionNumber.set(modVersion)
     versionName.set("${base.archivesName.get()}-$modVersion")
-    versionType.set("release")
+    versionType.set(releaseType)
     uploadFile.set(tasks.remapJar.get())
     gameVersions.addAll(mcVersions.split(","))
-    loaders.addAll("fabric")
+    loaders.addAll("neoforged")
     detectLoaders.set(false)
     changelog.set("## Changelog for Symbols 'n' Stuff $modVersion \n\n" + log.readText())
     dependencies {
-        required.project("fabric-api")
-        required.project("fabric-language-kotlin")
-        //required.project("amethyst-core")
-        //required.project("fzzy-core")
-        //required.project("gear-core")
-        //optional.project("emi")
-        //embedded.project("trinkets")
-        //embedded.project("patchouli")
+        required.project("kotlin-for-forge")
     }
-    debugMode.set(true)
+    debugMode.set(uploadDebugMode.toBooleanLenient() ?: true)
+}
+
+if (System.getenv("CURSEFORGE_TOKEN") != null) {
+    curseforge {
+        val releaseType: String by project
+        val mcVersions: String by project
+        val uploadDebugMode: String by project
+
+        apiKey = System.getenv("CURSEFORGE_TOKEN")
+        project(closureOf<CurseProject> {
+            id = "1091274"
+            changelog = log
+            changelogType = "markdown"
+            this.releaseType = releaseType
+            for (ver in mcVersions.split(",")) {
+                addGameVersion(ver)
+            }
+            addGameVersion("NeoForge")
+            mainArtifact(tasks.remapJar.get().archiveFile.get(), closureOf<CurseArtifact> {
+                displayName = "${base.archivesName.get()}-${project.version}"
+                relations(closureOf<CurseRelation> {
+                    this.requiredDependency("kotlin-for-forge")
+                })
+            })
+            relations(closureOf<CurseRelation> {
+                this.requiredDependency("kotlin-for-forge")
+            })
+        })
+        options(closureOf<Options> {
+            javaIntegration = false
+            forgeGradleIntegration = false
+            javaVersionAutoDetect = false
+            debug = uploadDebugMode.toBooleanLenient() ?: true
+        })
+    }
+}
+
+tasks.register("uploadAll") {
+    group = "upload"
+    dependsOn(tasks.modrinth.get())
+    dependsOn(tasks.curseforge.get())
 }
