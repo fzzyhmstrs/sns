@@ -1,8 +1,8 @@
 ### Additions
-* Port to 1.20.4
+* Add some more EMI Loot icons
 
 ### Changes
-* 
+* None
 
 ### Fixes
-* 
+* None
