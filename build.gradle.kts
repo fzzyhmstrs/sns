@@ -120,7 +120,7 @@ modrinth {
     versionType.set(releaseType)
     uploadFile.set(tasks.remapJar.get())
     gameVersions.addAll(mcVersions.split(","))
-    loaders.addAll("neoforged")
+    loaders.addAll("neoforge")
     detectLoaders.set(false)
     changelog.set("## Changelog for Symbols 'n' Stuff $modVersion \n\n" + log.readText())
     dependencies {
