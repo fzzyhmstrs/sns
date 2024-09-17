@@ -1,3 +1,8 @@
+import org.jetbrains.kotlin.cli.common.toBooleanLenient
+import com.matthewprenger.cursegradle.CurseArtifact
+import com.matthewprenger.cursegradle.CurseProject
+import com.matthewprenger.cursegradle.CurseRelation
+import com.matthewprenger.cursegradle.Options
 
 /*
 * Copyright (c) 2024 Fzzyhmstrs
@@ -14,6 +19,7 @@ plugins {
     val kotlinVersion: String by System.getProperties()
     kotlin("jvm").version(kotlinVersion)
     id("com.modrinth.minotaur") version "2.+"
+    id("com.matthewprenger.cursegradle") version "1.4.0"
 }
 base {
     val archivesBaseName: String by project
@@ -27,30 +33,6 @@ group = mavenGroup
 println("## Changelog for ${base.archivesName.get()} $modVersion \n\n" + log.readText())
 println(base.archivesName.get().replace('_','-'))
 repositories {
-    /*maven {
-        name = "TerraformersMC"
-        url = uri("https://maven.terraformersmc.com/")
-    }*/
-    /*maven {
-        name = "REI"
-        url = uri("https://maven.shedaniel.me")
-    }*/
-    /*maven {
-        name = "Progwml6 maven"
-        url = uri("https://dvs1.progwml6.com/files/maven/")
-    }*/
-    /*maven {
-        name = "Ladysnake Libs"
-        url = uri("https://maven.ladysnake.org/releases")
-        content {
-            includeGroup("io.github.ladysnake")
-            includeGroupByRegex("io\\.github\\.onyxstudios.*")
-        }
-    }*/
-    /*maven {
-        name = "Patchouli Lib"
-        url = uri("https://maven.blamejared.com")
-    }*/
     maven {
         name = "Modrinth"
         url = uri("https://api.modrinth.com/maven")
@@ -58,25 +40,6 @@ repositories {
             includeGroup("maven.modrinth")
         }
     }
-    /*maven {
-        name = "Jitpack"
-        url = uri("https://jitpack.io")
-    }*/
-    /*flatDir {
-        dirs("E:\\Documents\\Mod Libraries\\ac\\build\\libs")
-    }*/
-    /*flatDir {
-        dirs("E:\\Documents\\Mod Libraries\\fc\\build\\libs")
-    }*/
-    /*flatDir {
-        dirs("E:\\Documents\\Mod Libraries\\gc\\build\\libs")
-    }*/
-    /*flatDir {
-        dirs("E:\\Documents\\Mod Development\\ai\\build\\libs")
-    }*/
-    /*flatDir {
-        dirs("E:\\Documents\\Mod Libraries\\fzzy_config\\build\\libs")
-    }*/
     mavenCentral()
 }
 dependencies {
@@ -90,32 +53,6 @@ dependencies {
     modImplementation("net.fabricmc.fabric-api:fabric-api:$fabricVersion")
     val fabricKotlinVersion: String by project
     modImplementation("net.fabricmc:fabric-language-kotlin:$fabricKotlinVersion")
-
-    /*val fzzyConfigVersion: String by project
-    modImplementation(":fzzy_config-$fzzyConfigVersion") {
-        exclude("net.fabricmc.fabric-api")
-    }*/
-
-    /*val acVersion: String by project
-    modImplementation(":amethyst_core-$acVersion") {
-        exclude("net.fabricmc.fabric-api")
-    }*/
-
-    /*val fcVersion: String by project
-    modImplementation(":fzzy_core-$fcVersion") {
-        exclude("net.fabricmc.fabric-api")
-    }*/
-
-    /*val gcVersion: String by project
-    modImplementation(":gear_core-$gcVersion") {
-        exclude("net.fabricmc.fabric-api")
-    }*/
-
-    /*val aiVersion: String by project
-    modImplementation(":amethyst_imbuement-$aiVersion") {
-        exclude("net.fabricmc.fabric-api")
-    }*/
-
 }
 
 tasks {
@@ -167,12 +104,14 @@ tasks {
 
 modrinth {
     val modrinthSlugName: String by project
+    val releaseType: String by project
     val mcVersions: String by project
+    val uploadDebugMode: String by project
     token.set(System.getenv("MODRINTH_TOKEN"))
     projectId.set(modrinthSlugName)
     versionNumber.set(modVersion)
     versionName.set("${base.archivesName.get()}-$modVersion")
-    versionType.set("release")
+    versionType.set(releaseType)
     uploadFile.set(tasks.remapJar.get())
     gameVersions.addAll(mcVersions.split(","))
     loaders.addAll("fabric")
@@ -181,12 +120,47 @@ modrinth {
     dependencies {
         required.project("fabric-api")
         required.project("fabric-language-kotlin")
-        //required.project("amethyst-core")
-        //required.project("fzzy-core")
-        //required.project("gear-core")
-        //optional.project("emi")
-        //embedded.project("trinkets")
-        //embedded.project("patchouli")
     }
-    debugMode.set(true)
+    debugMode.set(uploadDebugMode.toBooleanLenient() ?: true)
+}
+
+if (System.getenv("CURSEFORGE_TOKEN") != null) {
+    curseforge {
+        val releaseType: String by project
+        val mcVersions: String by project
+        val uploadDebugMode: String by project
+
+        apiKey = System.getenv("CURSEFORGE_TOKEN")
+        project(closureOf<CurseProject> {
+            id = "1091274"
+            changelog = log
+            changelogType = "markdown"
+            this.releaseType = releaseType
+            for (ver in mcVersions.split(",")) {
+                addGameVersion(ver)
+            }
+            addGameVersion("Fabric")
+            mainArtifact(tasks.remapJar.get().archiveFile.get(), closureOf<CurseArtifact> {
+                displayName = "${base.archivesName.get()}-${project.version}"
+                relations(closureOf<CurseRelation> {
+                    this.requiredDependency("kotlin-for-forge")
+                })
+            })
+            relations(closureOf<CurseRelation> {
+                this.requiredDependency("kotlin-for-forge")
+            })
+        })
+        options(closureOf<Options> {
+            javaIntegration = false
+            forgeGradleIntegration = false
+            javaVersionAutoDetect = false
+            debug = uploadDebugMode.toBooleanLenient() ?: true
+        })
+    }
+}
+
+tasks.register("uploadAll") {
+    group = "upload"
+    dependsOn(tasks.modrinth.get())
+    dependsOn(tasks.curseforge.get())
 }
