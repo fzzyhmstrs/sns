@@ -26,7 +26,6 @@ base {
     val archivesBaseName: String by project
     archivesName.set(archivesBaseName)
 }
-
 val log: File = file("changelog.md")
 val modVersion: String by project
 version = modVersion
@@ -55,7 +54,11 @@ dependencies {
     val minecraftVersion: String by project
     minecraft("com.mojang:minecraft:$minecraftVersion")
     val yarnMappings: String by project
-    mappings("net.fabricmc:yarn:$yarnMappings:v2")
+    val yarnMappingsPatchVersion: String by project
+    mappings( loom.layered {
+        mappings("net.fabricmc:yarn:$yarnMappings:v2")
+        mappings("dev.architectury:yarn-mappings-patch-neoforge:$yarnMappingsPatchVersion")
+    })
     val loaderVersion: String by project
     neoForge("net.neoforged:neoforge:$loaderVersion")
 
@@ -91,7 +94,7 @@ tasks {
         val loaderVersion: String by project
         val fabricKotlinVersion: String by project
         inputs.property("version", project.version)
-        filesMatching("META-INF/mods.toml") {
+        filesMatching("META-INF/neoforge.mods.toml") {
             expand(mutableMapOf(
                 "version" to project.version)
             )
@@ -106,6 +109,8 @@ tasks {
 }
 
 modrinth {
+    val uploadDebugMode: String by project
+    val releaseType: String by project
     val modrinthSlugName: String by project
     val releaseType: String by project
     val mcVersions: String by project

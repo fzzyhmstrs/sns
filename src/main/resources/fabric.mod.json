@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "${id}",
+  "version": "${version}",
+  "name": "Symbols 'n' Stuff",
+  "description": "Simple utility mod that adds text-based symbols for spicing up your tooltips, screens, and more!",
+  "authors": [
+    "fzzyhmstrs"
+  ],
+  "contact": {
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/symbols_n_stuff",
+    "issues": "https://github.com/fzzyhmstrs/sns/issues",
+    "sources": "https://github.com/fzzyhmstrs/sns"
+  },
+  "license": "TDL-M",
+  "icon": "assets/${id}/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+    ],
+    "client": [
+    ]
+  },
+  "mixins": [
+    "symbols_n_stuff.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loaderVersion}",
+    "fabric": "*",
+    "fabric-key-binding-api-v1": "*",
+    "fabric-language-kotlin": ">=${fabricKotlinVersion}",
+    "minecraft": ">=1.20.4 <=1.20.6",
+    "java": ">=17"
+  }
+}
