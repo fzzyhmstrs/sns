@@ -1,8 +1,8 @@
 ### Additions
-* Initial release
+* None
 
 ### Changes
-* 
+* None
 
 ### Fixes
-* 
+* Delete vestigial mod initializer stuff
