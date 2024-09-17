@@ -143,11 +143,13 @@ if (System.getenv("CURSEFORGE_TOKEN") != null) {
             mainArtifact(tasks.remapJar.get().archiveFile.get(), closureOf<CurseArtifact> {
                 displayName = "${base.archivesName.get()}-${project.version}"
                 relations(closureOf<CurseRelation> {
-                    this.requiredDependency("kotlin-for-forge")
+                    this.requiredDependency("fabric-api")
+                    this.requiredDependency("fabric-language-kotlin")
                 })
             })
             relations(closureOf<CurseRelation> {
-                this.requiredDependency("kotlin-for-forge")
+                this.requiredDependency("fabric-api")
+                this.requiredDependency("fabric-language-kotlin")
             })
         })
         options(closureOf<Options> {
