@@ -1,0 +1,35 @@
+modLoader = "javafml"
+loaderVersion = "[1,)"
+issueTrackerURL = "https://github.com/fzzyhmstrs/sns/issues"
+license = "TDL-M (https://github.com/fzzyhmstrs/Timefall-Development-Licence-Modified)"
+
+[[mods]]
+modId = "symbols_n_stuff"
+version = "${version}"
+displayName = "Symbols 'n' Stuff"
+authors = "fzzyhmstrs"
+description = '''
+Simple utility mod that adds text-based symbols for spicing up your tooltips, screens, and more!
+'''
+logoFile = "assets/symbols_n_stuff/icon.png"
+
+[[dependencies.symbols_n_stuff]]
+modId = "forge"
+mandatory = true
+versionRange = "[47,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.symbols_n_stuff]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.20.1]"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.symbols_n_stuff]]
+modId = "kotlinforforge"
+mandatory = true
+versionRange = "[4.11.0,4.99.0)"
+ordering = "NONE"
+side = "BOTH"
