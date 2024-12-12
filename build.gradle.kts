@@ -4,6 +4,7 @@ import com.matthewprenger.cursegradle.CurseArtifact
 import com.matthewprenger.cursegradle.CurseProject
 import com.matthewprenger.cursegradle.CurseRelation
 import com.matthewprenger.cursegradle.Options
+import masecla.modrinth4j.model.search.Facet.license
 
 /*
 * Copyright (c) 2024 Fzzyhmstrs
@@ -21,6 +22,7 @@ plugins {
     kotlin("jvm").version(kotlinVersion)
     id("com.modrinth.minotaur") version "2.+"
     id("com.matthewprenger.cursegradle") version "1.4.0"
+    `maven-publish`
 }
 base {
     val archivesBaseName: String by project
@@ -172,4 +174,50 @@ tasks.register("uploadAll") {
     group = "upload"
     dependsOn(tasks.modrinth.get())
     dependsOn(tasks.curseforge.get())
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("sns") {
+            from(components["java"])
+
+            pom {
+                name.set("Symbols 'n' Stuff")
+                description.set("Simple utility mod that adds text-based symbols for spicing up your tooltips, screens, and more!")
+                inceptionYear.set("2024")
+                licenses {
+                    license {
+                        name.set("TDL-M")
+                        url.set("https://github.com/fzzyhmstrs/Timefall-Development-Licence-Modified")
+                        distribution.set("repo")
+                        comments.set("Symbols 'n' Stuff is free software provided under the terms of the Timefall Development License - Modified (TDL-M). See license url for full license details.")
+                    }
+                }
+                scm {
+                    url.set("https://github.com/fzzyhmstrs/sns")
+                }
+                issueManagement {
+                    system.set("Github")
+                    url.set("https://github.com/fzzyhmstrs/sns/issues")
+                }
+                developers {
+                    developer {
+                        name.set("Fzzyhmstrs")
+                        url.set("https://github.com/fzzyhmstrs")
+                    }
+                }
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            name = "FzzyMaven"
+            url = uri("https://maven.fzzyhmstrs.me")
+            credentials {
+                username = System.getProperty("fzzyMavenUsername")
+                password = System.getProperty("fzzyMavenPassword")
+            }
+        }
+    }
 }
